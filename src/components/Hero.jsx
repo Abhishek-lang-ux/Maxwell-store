@@ -3,7 +3,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, ShieldCheck, Zap, BadgeIndianRup
 
 const slides = [
   {
-    image: "/catalogue/mixer.jpg",
+    image: "/catalogue/mixer.png",
     kicker: "MAXWELL HOME APPLIANCES",
     title: <>Power your kitchen with <span>confidence.</span></>,
     text: "Explore Maxwell's appliance range — thoughtfully selected for dependable everyday performance, practical design and lasting value.",
@@ -12,7 +12,7 @@ const slides = [
     tag: "KITCHEN COLLECTION",
   },
   {
-    image: "/catalogue/stove.jpg",
+    image: "/catalogue/mixer2.png",
     kicker: "MAXWELL COOKTOPS",
     title: <>Made for <span>everyday cooking.</span></>,
     text: "Discover cooktops designed around easy cleaning, steady cooking performance and a modern kitchen experience.",
