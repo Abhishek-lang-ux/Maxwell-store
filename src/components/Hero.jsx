@@ -21,7 +21,7 @@ const slides = [
     tag: "COOKTOP COLLECTION",
   },
   {
-    image: "/catalogue/hero-lifestyle.jpg",
+    image: "/catalogue/cooker.png",
     kicker: "MAXWELL KITCHEN RANGE",
     title: <>A better kitchen starts with <span>better appliances.</span></>,
     text: "Bring practical Maxwell appliances into your home with a range built around performance, durability and value.",
