@@ -161,10 +161,60 @@ button { cursor: pointer; }
   position: absolute;
   inset: 0;
   z-index: -2;
-  background: linear-gradient(110deg, #7d0710 0%, #d71927 42%, #f5f5f3 42%, #f5f5f3 100%);
+  background: #d71927;
 }
-.hero-blue::before { background: linear-gradient(110deg, #086b9e 0%, #168cc6 48%, #f5f6f5 48%, #f5f6f5 100%); }
-.hero-dark::before { background: linear-gradient(110deg, #151515 0%, #303030 48%, #f3f3f1 48%, #f3f3f1 100%); }
+
+.hero-blue::before {
+  background: #168cc6;
+}
+
+.hero-dark::before {
+  background: #303030;
+}
+
+.hero-copy {
+  color: #fff;
+}
+
+.hero-kicker {
+  color: #fff;
+}
+
+.hero-kicker::before {
+  background: #fff;
+}
+
+.hero-copy h1 {
+  color: #fff;
+}
+
+.hero-copy h1 span {
+  color: #fff;
+}
+
+.hero-copy > p {
+  color: rgba(255, 255, 255, .88);
+}
+
+.hero-points div {
+  color: rgba(255, 255, 255, .92);
+}
+
+.hero-points svg {
+  color: #fff;
+}
+
+.hero-secondary {
+  background: rgba(255, 255, 255, .96);
+  color: #171717;
+  border-color: #fff;
+}
+
+.hero-secondary:hover {
+  background: #fff;
+  color: var(--red);
+  border-color: #fff;
+}
 .hero-banner::after {
   content: "";
   position: absolute;
@@ -1354,4 +1404,149 @@ button { cursor: pointer; }
   .menu-drawer { width: min(350px, calc(100vw - 18px)); }
   .menu-drawer-head { padding: 29px 22px 23px; }
   .menu-drawer-list { padding: 10px 9px; }
+}
+/* HERO FULL-WIDTH BACKGROUND */
+.hero-banner::before {
+  background: #d71927 !important;
+}
+
+.hero-blue::before {
+  background: #168cc6 !important;
+}
+
+.hero-dark::before {
+  background: #303030 !important;
+}
+/* ===== HERO TEXT VISIBILITY FIX ===== */
+
+/* RED SLIDE */
+.hero-red .hero-copy {
+  color: #111 !important;
+}
+
+.hero-red .hero-kicker {
+  color: #111 !important;
+}
+
+.hero-red .hero-kicker::before {
+  background: #111 !important;
+}
+
+.hero-red .hero-copy h1 {
+  color: #111 !important;
+}
+
+.hero-red .hero-copy h1 span {
+  color: #111 !important;
+}
+
+.hero-red .hero-copy > p {
+  color: #222 !important;
+}
+
+.hero-red .hero-points div {
+  color: #111 !important;
+}
+
+.hero-red .hero-points svg {
+  color: #111 !important;
+}
+
+
+/* BLUE SLIDE */
+.hero-blue .hero-copy {
+  color: #111 !important;
+}
+
+.hero-blue .hero-kicker {
+  color: #111 !important;
+}
+
+.hero-blue .hero-kicker::before {
+  background: #111 !important;
+}
+
+.hero-blue .hero-copy h1 {
+  color: #111 !important;
+}
+
+.hero-blue .hero-copy h1 span {
+  color: #111 !important;
+}
+
+.hero-blue .hero-copy > p {
+  color: #222 !important;
+}
+
+.hero-blue .hero-points div {
+  color: #111 !important;
+}
+
+.hero-blue .hero-points svg {
+  color: #111 !important;
+}
+
+
+/* DARK SLIDE */
+.hero-dark .hero-copy {
+  color: #fff !important;
+}
+
+.hero-dark .hero-kicker {
+  color: #fff !important;
+}
+
+.hero-dark .hero-kicker::before {
+  background: #fff !important;
+}
+
+.hero-dark .hero-copy h1 {
+  color: #fff !important;
+}
+
+.hero-dark .hero-copy h1 span {
+  color: #fff !important;
+}
+
+.hero-dark .hero-copy > p {
+  color: rgba(255,255,255,.88) !important;
+}
+
+.hero-dark .hero-points div {
+  color: rgba(255,255,255,.92) !important;
+}
+
+.hero-dark .hero-points svg {
+  color: #fff !important;
+}
+
+
+/* BUTTONS */
+.hero-btn {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+.hero-btn:hover {
+  background: #000 !important;
+}
+
+.hero-secondary {
+  background: #fff !important;
+  color: #111 !important;
+  border-color: #fff !important;
+}
+
+
+/* FULL WIDTH BACKGROUNDS */
+.hero-red::before {
+  background: #e60000 !important;
+}
+
+.hero-blue::before {
+  background: #168cc6 !important;
+}
+
+.hero-dark::before {
+  background: #303030 !important;
 }
