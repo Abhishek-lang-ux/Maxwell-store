@@ -8,7 +8,7 @@ import About from "./components/About";
 import Footer from "./components/Footer";
 import { X, Minus, Plus, Trash2, ShoppingBag, UserRound, LogIn } from "lucide-react";
 import Checkout from "./components/Checkout";
-import products from "./data/products";
+import Contact from "./components/Contact";
 
 function readStorage(key, fallback) {
   try {
@@ -32,6 +32,51 @@ function App() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [warrantyFilter, setWarrantyFilter] = useState("All");
   const [sortBy, setSortBy] = useState("featured");
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(true);
+  const [productsError, setProductsError] = useState("");
+  useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      setProductsLoading(true);
+      setProductsError("");
+
+      const response = await fetch("http://localhost:5000/api/products");
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data.success || !Array.isArray(data.products)) {
+        throw new Error("Invalid products API response");
+      }
+
+      const normalizedProducts = data.products.map((product) => ({
+        ...product,
+
+        // Backend field → existing frontend field
+        category: product.product_category || product.category_name || "",
+        categoryGroup: product.category_value || "",
+
+        // Keep frontend image handling compatible
+        image: product.image || "",
+      }));
+
+      setProducts(normalizedProducts);
+    } catch (error) {
+      console.error("Products API error:", error);
+      setProductsError(
+        "Unable to load products. Please make sure the Maxwell backend is running."
+      );
+    } finally {
+      setProductsLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, []);
 
   useEffect(() => {
     localStorage.setItem("maxwell-cart", JSON.stringify(cart));
@@ -101,7 +146,7 @@ function App() {
     }
 
     return result;
-  }, [search, activeCategory, warrantyFilter, sortBy]);
+  }, [products, search, activeCategory, warrantyFilter, sortBy]);
 
   const handleCategory = (category) => {
     setActiveCategory(category);
@@ -132,28 +177,50 @@ function App() {
         <Hero onExplore={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })} />
         <Navbar activeCategory={activeCategory} onCategory={handleCategory} menuOpen={menuOpen} />
         <Categories onCategory={handleCategory} activeCategory={activeCategory} />
-        <Products
-          products={filteredProducts}
-          search={search}
-          activeCategory={activeCategory}
-          wishlist={wishlist}
-          onWishlist={toggleWishlist}
-          onDetails={setSelectedProduct}
-          onAddToCart={addToCart}
-          onClearFilters={() => {
-            setSearch("");
-            setActiveCategory("All");
-            setWarrantyFilter("All");
-            setSortBy("featured");
-          }}
-          filterOpen={filterOpen}
-          onFilterOpen={() => setFilterOpen(true)}
-          onFilterClose={() => setFilterOpen(false)}
-          warrantyFilter={warrantyFilter}
-          setWarrantyFilter={setWarrantyFilter}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
+        {productsLoading ? (
+  <section className="products-section" id="products">
+    <div className="no-results">
+      <h3>Loading products...</h3>
+      <p>Please wait while Maxwell products are loading.</p>
+    </div>
+  </section>
+) : productsError ? (
+  <section className="products-section" id="products">
+    <div className="no-results">
+      <h3>Unable to load products</h3>
+      <p>{productsError}</p>
+      <button
+        className="hero-btn"
+        onClick={() => window.location.reload()}
+      >
+        Try Again
+      </button>
+    </div>
+  </section>
+) : (
+  <Products
+    products={filteredProducts}
+    search={search}
+    activeCategory={activeCategory}
+    wishlist={wishlist}
+    onWishlist={toggleWishlist}
+    onDetails={setSelectedProduct}
+    onAddToCart={addToCart}
+    onClearFilters={() => {
+      setSearch("");
+      setActiveCategory("All");
+      setWarrantyFilter("All");
+      setSortBy("featured");
+    }}
+    filterOpen={filterOpen}
+    onFilterOpen={() => setFilterOpen(true)}
+    onFilterClose={() => setFilterOpen(false)}
+    warrantyFilter={warrantyFilter}
+    setWarrantyFilter={setWarrantyFilter}
+    sortBy={sortBy}
+    setSortBy={setSortBy}
+  />
+)}
         {filterOpen && (
           <div className="filter-backdrop" onMouseDown={(e) => e.target === e.currentTarget && setFilterOpen(false)}>
             <aside className="filter-drawer" aria-label="Product filters">
@@ -224,6 +291,7 @@ function App() {
         )}
 
         <About />
+        <Contact />
       </main>
 
       <Footer />
