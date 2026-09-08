@@ -24,11 +24,11 @@ function Products({
           </div>
           <span className="section-note">{products.length} product{products.length === 1 ? "" : "s"} shown</span>
         </div>
-        <button className="filter-trigger" onClick={onFilterOpen}>
+        {/* <button className="filter-trigger" onClick={onFilterOpen}>
           <SlidersHorizontal size={17} />
           <span>Filter & Sort</span>
           <span className="filter-trigger-arrow">→</span>
-        </button>
+        </button> */}
       </div>
 
       <div className="filter-summary">

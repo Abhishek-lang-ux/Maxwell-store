@@ -12,6 +12,7 @@ import Contact from "./components/Contact";
 import Chatbot from "./components/Chatbot";
 import ProductPage from "./components/ProductPage";
 import CategoryProducts from "./components/CategoryProducts";
+import FilteredProducts from "./components/FilteredProducts";
 
 import {
   X,
@@ -21,6 +22,7 @@ import {
   ShoppingBag,
   UserRound,
   LogIn,
+  SlidersHorizontal,
 } from "lucide-react";
 
 import localProducts from "./data/products";
@@ -68,6 +70,7 @@ function App() {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const [filterOpen, setFilterOpen] = useState(false);
+  const [filterPage, setFilterPage] = useState(false);
   const [warrantyFilter, setWarrantyFilter] = useState("All");
   const [sortBy, setSortBy] = useState("featured");
 
@@ -501,6 +504,39 @@ function App() {
     sortBy,
   ]);
 
+  const openFilterPage = () => {
+  setFilterPage(true);
+  setFilterOpen(false);
+
+  window.history.pushState(
+    { filter: true },
+    "",
+    "/products"
+  );
+
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant",
+  });
+};
+
+const closeFilterPage = () => {
+  setFilterPage(false);
+
+  window.history.pushState(
+    {},
+    "",
+    "/"
+  );
+
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant",
+  });
+};
+
 
   /* =======================================================
      CATEGORY HANDLER
@@ -622,521 +658,333 @@ function App() {
 
       <main>
 
-        {productPage ? (
+  {productPage ? (
 
-  <ProductPage
-    product={productPage}
-    products={products}
-    wishlist={wishlist}
-    onWishlist={toggleWishlist}
-    onAddToCart={addToCart}
-    onOpenProduct={openProductPage}
-    onBack={closeProductPage}
-  />
+    /* =========================
+       PRODUCT DETAIL PAGE
+       ========================= */
 
-) : categoryPage ? (
+    <ProductPage
+      product={productPage}
+      products={products}
+      wishlist={wishlist}
+      onWishlist={toggleWishlist}
+      onAddToCart={addToCart}
+      onOpenProduct={openProductPage}
+      onBack={closeProductPage}
+    />
 
-  <CategoryProducts
-    category={categoryPage}
-    products={products}
-    wishlist={wishlist}
-    onWishlist={toggleWishlist}
-    onDetails={openProductPage}
-    onAddToCart={addToCart}
-    onBack={() => {
-      setCategoryPage(null);
-      setActiveCategory("All");
+  ) : filterPage ? (
 
-      window.history.pushState(
-        {},
-        "",
-        "/"
-      );
+    /* =========================
+       FILTERED PRODUCTS PAGE
+       ========================= */
 
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "instant",
-      });
-    }}
-  />
+    <FilteredProducts
+      products={filteredProducts}
+      search={search}
+      activeCategory={activeCategory}
+      warrantyFilter={warrantyFilter}
+      sortBy={sortBy}
+      wishlist={wishlist}
+      onWishlist={toggleWishlist}
+      onDetails={openProductPage}
+      onAddToCart={addToCart}
+      onBack={closeFilterPage}
+      onFilterOpen={() => setFilterOpen(true)}
+      onClearFilters={() => {
+        setSearch("");
+        setActiveCategory("All");
+        setWarrantyFilter("All");
+        setSortBy("featured");
+      }}
+    />
 
-) : (
+  ) : (
 
-  /* YAHAN TUMHARA EXISTING HOME PAGE */
+    /* =========================
+       HOME PAGE
+       ========================= */
 
-  <>
-    <Hero
-      onExplore={() =>
-        document
-          .getElementById("products")
-          ?.scrollIntoView({
-            behavior: "smooth",
-          })
+    <>
+      <Hero
+        onExplore={() =>
+          document
+            .getElementById("products")
+            ?.scrollIntoView({
+              behavior: "smooth",
+            })
+        }
+      />
+
+      <Navbar
+        activeCategory={activeCategory}
+        onCategory={handleCategory}
+        menuOpen={menuOpen}
+      />
+
+      {/* FILTER BUTTON */}
+
+      <div className="home-filter-bar">
+
+        <button
+          className="filter-trigger"
+          onClick={() => setFilterOpen(true)}
+        >
+          <SlidersHorizontal size={17} />
+
+          <span>
+            Filter & Sort
+          </span>
+
+          <span className="filter-trigger-arrow">
+            →
+          </span>
+        </button>
+
+      </div>
+
+      <Categories
+        onCategory={handleCategory}
+        activeCategory={activeCategory}
+      />
+
+      {productsLoading ? (
+
+        <section
+          className="products-section"
+          id="products"
+        >
+          <div className="no-results">
+            <h3>
+              Loading products...
+            </h3>
+
+            <p>
+              Please wait while Maxwell products
+              are loading.
+            </p>
+          </div>
+        </section>
+
+      ) : productsError ? (
+
+        <section
+          className="products-section"
+          id="products"
+        >
+          <div className="no-results">
+
+            <h3>
+              Unable to load products
+            </h3>
+
+            <p>
+              {productsError}
+            </p>
+
+            <button
+              className="hero-btn"
+              onClick={() =>
+                window.location.reload()
+              }
+            >
+              Try Again
+            </button>
+
+          </div>
+        </section>
+
+      ) : (
+
+        <Products
+          products={filteredProducts}
+          search={search}
+          activeCategory={activeCategory}
+          wishlist={wishlist}
+          onWishlist={toggleWishlist}
+          onDetails={openProductPage}
+          onAddToCart={addToCart}
+          onClearFilters={() => {
+            setSearch("");
+            setActiveCategory("All");
+            setWarrantyFilter("All");
+            setSortBy("featured");
+          }}
+          warrantyFilter={warrantyFilter}
+          sortBy={sortBy}
+        />
+
+      )}
+
+      <About />
+      {filterOpen && (
+  <div
+    className="filter-backdrop"
+    onMouseDown={(e) => {
+      if (e.target === e.currentTarget) {
+        setFilterOpen(false);
       }
-    />
+    }}
+  >
+    <aside className="filter-drawer" aria-label="Product filters">
 
-    <Navbar
-      activeCategory={activeCategory}
-      onCategory={handleCategory}
-      menuOpen={menuOpen}
-    />
+      {/* HEADER */}
+      <div className="filter-drawer-header">
+        <div>
+          <p className="small-title">REFINE RANGE</p>
+          <h2>Filter Products</h2>
+        </div>
 
-    <Categories
-      onCategory={handleCategory}
-      activeCategory={activeCategory}
-    />
+        <button
+          className="icon-btn"
+          onClick={() => setFilterOpen(false)}
+          aria-label="Close filters"
+        >
+          <X size={21} />
+        </button>
+      </div>
 
+      {/* BODY */}
+      <div className="filter-drawer-body">
 
-            {/* PRODUCTS */}
+        {/* CATEGORY */}
+        <div className="filter-block">
+          <div className="filter-label-row">
+            <strong>Category</strong>
+            <span>
+              {activeCategory === "All"
+                ? "All products"
+                : activeCategory}
+            </span>
+          </div>
 
-            {productsLoading ? (
+          <div className="filter-chips">
+            <button
+              className={
+                activeCategory === "All"
+                  ? "filter-chip active"
+                  : "filter-chip"
+              }
+              onClick={() => setActiveCategory("All")}
+            >
+              All
+            </button>
 
-              <section
-                className="products-section"
-                id="products"
-              >
-
-                <div className="no-results">
-
-                  <h3>
-                    Loading products...
-                  </h3>
-
-                  <p>
-                    Please wait while
-                    Maxwell products are
-                    loading.
-                  </p>
-
-                </div>
-
-              </section>
-
-            ) : productsError ? (
-
-              <section
-                className="products-section"
-                id="products"
-              >
-
-                <div className="no-results">
-
-                  <h3>
-                    Unable to load
-                    products
-                  </h3>
-
-                  <p>
-                    {productsError}
-                  </p>
-
-                  <button
-                    className="hero-btn"
-                    onClick={() =>
-                      window.location.reload()
-                    }
-                  >
-                    Try Again
-                  </button>
-
-                </div>
-
-              </section>
-
-            ) : (
-
-              <Products
-                products={
-                  filteredProducts
-                }
-                search={search}
-                activeCategory={
-                  activeCategory
-                }
-                wishlist={wishlist}
-                onWishlist={
-                  toggleWishlist
-                }
-                onDetails={
-                  openProductPage
-                }
-                onAddToCart={
-                  addToCart
-                }
-                onClearFilters={() => {
-
-                  setSearch("");
-                  setActiveCategory(
-                    "All"
-                  );
-                  setWarrantyFilter(
-                    "All"
-                  );
-                  setSortBy(
-                    "featured"
-                  );
-
-                }}
-                filterOpen={
-                  filterOpen
-                }
-                onFilterOpen={() =>
-                  setFilterOpen(true)
-                }
-                onFilterClose={() =>
-                  setFilterOpen(false)
-                }
-                warrantyFilter={
-                  warrantyFilter
-                }
-                setWarrantyFilter={
-                  setWarrantyFilter
-                }
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-              />
-
-            )}
-
-
-            {/* FILTER DRAWER */}
-
-            {filterOpen && (
-
-              <div
-                className="filter-backdrop"
-                onMouseDown={(e) => {
-
-                  if (
-                    e.target ===
-                    e.currentTarget
-                  ) {
-                    setFilterOpen(false);
+            {[...new Set(products.map((p) => p.category))]
+              .filter(Boolean)
+              .map((category) => (
+                <button
+                  key={category}
+                  className={
+                    activeCategory === category
+                      ? "filter-chip active"
+                      : "filter-chip"
                   }
-
-                }}
-              >
-
-                <aside
-                  className="filter-drawer"
-                  aria-label="Product filters"
+                  onClick={() => setActiveCategory(category)}
                 >
-
-                  {/* FILTER HEADER */}
-
-                  <div className="filter-drawer-header">
-
-                    <div>
-
-                      <p className="small-title">
-                        REFINE RANGE
-                      </p>
-
-                      <h2>
-                        Filter Products
-                      </h2>
-
-                    </div>
-
-                    <button
-                      className="icon-btn"
-                      onClick={() =>
-                        setFilterOpen(false)
-                      }
-                      aria-label="Close filters"
-                    >
-                      <X size={21} />
-                    </button>
-
-                  </div>
-
-
-                  {/* FILTER BODY */}
-
-                  <div className="filter-drawer-body">
-
-                    {/* CATEGORY */}
-
-                    <div className="filter-block">
-
-                      <div className="filter-label-row">
-
-                        <strong>
-                          Category
-                        </strong>
-
-                        <span>
-                          {activeCategory ===
-                          "All"
-                            ? "All products"
-                            : activeCategory}
-                        </span>
-
-                      </div>
-
-
-                      <div className="filter-chips">
-
-                        <button
-                          className={
-                            activeCategory ===
-                            "All"
-                              ? "filter-chip active"
-                              : "filter-chip"
-                          }
-                          onClick={() =>
-                            setActiveCategory(
-                              "All"
-                            )
-                          }
-                        >
-                          All
-                        </button>
-
-
-                        {[
-                          ...new Set(
-                            products.map(
-                              (p) =>
-                                p.category
-                            )
-                          ),
-                        ].map(
-                          (category) => (
-
-                            <button
-                              key={category}
-                              className={
-                                activeCategory ===
-                                category
-                                  ? "filter-chip active"
-                                  : "filter-chip"
-                              }
-                              onClick={() =>
-                                setActiveCategory(
-                                  category
-                                )
-                              }
-                            >
-                              {category}
-                            </button>
-
-                          )
-                        )}
-
-                      </div>
-
-                    </div>
-
-
-                    {/* WARRANTY */}
-
-                    <div className="filter-block">
-
-                      <div className="filter-label-row">
-
-                        <strong>
-                          Warranty
-                        </strong>
-
-                        <span>
-                          Choose coverage
-                        </span>
-
-                      </div>
-
-
-                      <div className="filter-chips">
-
-                        {[
-                          [
-                            "All",
-                            "Any warranty",
-                          ],
-                          [
-                            "1 Year",
-                            "1 Year",
-                          ],
-                          [
-                            "2 Years",
-                            "2 Years",
-                          ],
-                          [
-                            "5 Years",
-                            "5 Years",
-                          ],
-                          [
-                            "None",
-                            "Not listed",
-                          ],
-                        ].map(
-                          ([
-                            value,
-                            label,
-                          ]) => (
-
-                            <button
-                              key={value}
-                              className={
-                                warrantyFilter ===
-                                value
-                                  ? "filter-chip active"
-                                  : "filter-chip"
-                              }
-                              onClick={() =>
-                                setWarrantyFilter(
-                                  value
-                                )
-                              }
-                            >
-                              {label}
-                            </button>
-
-                          )
-                        )}
-
-                      </div>
-
-                    </div>
-
-
-                    {/* SORT */}
-
-                    <div className="filter-block">
-
-                      <div className="filter-label-row">
-
-                        <strong>
-                          Sort by
-                        </strong>
-
-                        <span>
-                          Display order
-                        </span>
-
-                      </div>
-
-
-                      <div className="sort-options">
-
-                        {[
-                          [
-                            "featured",
-                            "Featured",
-                          ],
-                          [
-                            "name-asc",
-                            "Name: A to Z",
-                          ],
-                          [
-                            "name-desc",
-                            "Name: Z to A",
-                          ],
-                        ].map(
-                          ([
-                            value,
-                            label,
-                          ]) => (
-
-                            <button
-                              key={value}
-                              className={
-                                sortBy ===
-                                value
-                                  ? "sort-option active"
-                                  : "sort-option"
-                              }
-                              onClick={() =>
-                                setSortBy(
-                                  value
-                                )
-                              }
-                            >
-
-                              <span className="sort-radio" />
-
-                              {label}
-
-                            </button>
-
-                          )
-                        )}
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-
-                  {/* FILTER FOOTER */}
-
-                  <div className="filter-drawer-footer">
-
-                    <button
-                      className="filter-reset"
-                      onClick={() => {
-
-                        setSearch("");
-                        setActiveCategory(
-                          "All"
-                        );
-                        setWarrantyFilter(
-                          "All"
-                        );
-                        setSortBy(
-                          "featured"
-                        );
-
-                      }}
-                    >
-                      Reset all
-                    </button>
-
-
-                    <button
-                      className="checkout-btn"
-                      onClick={() =>
-                        setFilterOpen(false)
-                      }
-                    >
-                      Show{" "}
-                      {
-                        filteredProducts.length
-                      }{" "}
-                      product
-                      {
-                        filteredProducts.length ===
-                        1
-                          ? ""
-                          : "s"
-                      }
-                    </button>
-
-                  </div>
-
-                </aside>
-
-              </div>
-
-            )}
-
-
-            {/* ABOUT */}
-
-            <About />
-
-
-            {/* CONTACT */}
-
-            <Contact />
-
-          </>
-
-        )}
-
-      </main>
+                  {category}
+                </button>
+              ))}
+          </div>
+        </div>
+
+        {/* WARRANTY */}
+        <div className="filter-block">
+          <div className="filter-label-row">
+            <strong>Warranty</strong>
+            <span>Choose coverage</span>
+          </div>
+
+          <div className="filter-chips">
+            {[
+              ["All", "Any warranty"],
+              ["1 Year", "1 Year"],
+              ["2 Years", "2 Years"],
+              ["5 Years", "5 Years"],
+              ["None", "Not listed"],
+            ].map(([value, label]) => (
+              <button
+                key={value}
+                className={
+                  warrantyFilter === value
+                    ? "filter-chip active"
+                    : "filter-chip"
+                }
+                onClick={() => setWarrantyFilter(value)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* SORT */}
+        <div className="filter-block">
+          <div className="filter-label-row">
+            <strong>Sort by</strong>
+            <span>Display order</span>
+          </div>
+
+          <div className="sort-options">
+            {[
+              ["featured", "Featured"],
+              ["name-asc", "Name: A to Z"],
+              ["name-desc", "Name: Z to A"],
+            ].map(([value, label]) => (
+              <button
+                key={value}
+                className={
+                  sortBy === value
+                    ? "sort-option active"
+                    : "sort-option"
+                }
+                onClick={() => setSortBy(value)}
+              >
+                <span className="sort-radio" />
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      {/* FOOTER */}
+      <div className="filter-drawer-footer">
+
+        <button
+          className="filter-reset"
+          onClick={() => {
+            setSearch("");
+            setActiveCategory("All");
+            setWarrantyFilter("All");
+            setSortBy("featured");
+          }}
+        >
+          Reset all
+        </button>
+
+        <button
+          className="checkout-btn"
+          onClick={openFilterPage}
+        >
+          Show {filteredProducts.length} product
+          {filteredProducts.length === 1 ? "" : "s"}
+        </button>
+
+      </div>
+
+    </aside>
+  </div>
+)}
+      <Contact />
+
+    </>
+
+  )}
+
+</main>
 
 
       {/* =================================================

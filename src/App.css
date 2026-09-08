@@ -4189,3 +4189,246 @@ button { cursor: pointer; }
   }
 
 }
+
+.home-filter-bar {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 14px 30px 6px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.home-filter-bar .filter-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #dedede;
+  border-radius: 6px;
+  background: #fff;
+  color: #222;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.home-filter-bar .filter-trigger:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.home-filter-bar .filter-trigger-arrow {
+  margin-left: 4px;
+}
+
+@media (max-width: 700px) {
+  .home-filter-bar {
+    padding: 12px 15px 5px;
+  }
+}
+
+/* =========================================================
+   FILTERED PRODUCTS PAGE
+========================================================= */
+
+.filtered-products-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  padding: 35px 0 80px;
+}
+
+.filtered-products-container {
+  width: min(1400px, calc(100% - 60px));
+  margin: 0 auto;
+}
+
+.filtered-page-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 38px;
+}
+
+.back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  color: #222;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.back-home-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.filtered-filter-btn {
+  margin-left: auto;
+}
+
+.filtered-page-heading {
+  padding-bottom: 25px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.filtered-page-heading h1 {
+  margin: 5px 0 8px;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+  color: #181818;
+}
+
+.filtered-page-subtitle {
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.filtered-active-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  margin-bottom: 5px;
+}
+
+.filtered-active-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filtered-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+  padding-top: 15px;
+}
+
+.filtered-no-results {
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #777;
+}
+
+.filtered-no-results h2 {
+  margin: 18px 0 8px;
+  color: #222;
+}
+
+.filtered-no-results p {
+  margin: 0 0 20px;
+}
+
+
+/* =========================================================
+   HOME FILTER BAR
+========================================================= */
+
+.home-filter-bar {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 14px 30px 6px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.home-filter-bar .filter-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #dedede;
+  border-radius: 6px;
+  background: #fff;
+  color: #222;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.home-filter-bar .filter-trigger:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.home-filter-bar .filter-trigger-arrow {
+  margin-left: 4px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .filtered-products-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .filtered-products-container {
+    width: calc(100% - 30px);
+  }
+
+  .filtered-products-page {
+    padding-top: 20px;
+  }
+
+  .filtered-page-top {
+    margin-bottom: 25px;
+  }
+
+  .filtered-page-heading h1 {
+    font-size: 32px;
+  }
+
+  .filtered-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .filtered-active-bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .home-filter-bar {
+    padding: 12px 15px 5px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .filtered-products-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
