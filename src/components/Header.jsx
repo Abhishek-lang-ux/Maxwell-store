@@ -16,11 +16,46 @@ function Header({ search, setSearch, cartCount, onCart, onLogin, onMenu, menuOpe
     <header className="top-header">
       <button className={`menu-btn ${menuOpen ? "is-open" : ""}`} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={onMenu}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
       <a className="maxwell-logo" href="#home" aria-label="Maxwell Home Appliances"><img src="/maxwell-logo.png" alt="Maxwell" /></a>
-      <div className="search-box">
-        <Search size={17} />
-        <input value={search} onChange={(e) => setSearch(e.target.value)} type="search" placeholder="Search Maxwell appliances" aria-label="Search Maxwell appliances" />
-        {search && <button className="search-clear" onClick={() => setSearch("")} aria-label="Clear search"><X size={15} /></button>}
-      </div>
+      <div className="search-area">
+  <div className={`search-box ${search ? "has-value" : ""}`}>
+
+    <Search size={18} className="search-icon" />
+
+    <input
+      type="text"
+      placeholder="Search products, models & appliances..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      aria-label="Search Maxwell products"
+    />
+
+    {search && (
+      <button
+        type="button"
+        className="search-clear"
+        onClick={() => setSearch("")}
+        aria-label="Clear search"
+      >
+        <X size={16} />
+      </button>
+    )}
+
+    <span className="search-shortcut">⌘ K</span>
+  </div>
+
+  <div className="search-quick">
+    <span>Popular:</span>
+    <button type="button" onClick={() => setSearch("Mixer Grinder")}>
+      Mixer Grinder
+    </button>
+    <button type="button" onClick={() => setSearch("Cooktop")}>
+      Cooktops
+    </button>
+    <button type="button" onClick={() => setSearch("Chimney")}>
+      Chimneys
+    </button>
+  </div>
+</div>
       <div className="header-actions">
         <a className="header-link" href="https://www.google.com/maps/search/?api=1&query=Plot+No.+28%2F1%2C+Sector-94%2C+Greater+Faridabad" target="_blank" rel="noreferrer"><MapPin size={16} /><span>Locate Store</span></a>
         <a className="header-link" href="mailto:info@maxwellgroup.in"><Headphones size={16} /><span>Support</span></a>

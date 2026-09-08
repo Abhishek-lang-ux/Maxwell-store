@@ -158,6 +158,28 @@ function App() {
   });
 };
 
+useEffect(() => {
+  const handleSearchShortcut = (e) => {
+    const isShortcut = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k";
+
+    if (!isShortcut) return;
+
+    e.preventDefault();
+
+    const searchInput = document.querySelector(
+      ".search-box input"
+    );
+
+    searchInput?.focus();
+  };
+
+  window.addEventListener("keydown", handleSearchShortcut);
+
+  return () => {
+    window.removeEventListener("keydown", handleSearchShortcut);
+  };
+}, []);
+
 
   /* =======================================================
      BROWSER BACK / FORWARD
