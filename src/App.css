@@ -1407,15 +1407,15 @@ button { cursor: pointer; }
 }
 /* HERO FULL-WIDTH BACKGROUND */
 .hero-banner::before {
-  background: #d71927 !important;
+  background: transparent !important;
 }
 
 .hero-blue::before {
-  background: #168cc6 !important;
+  background: transparent !important;
 }
 
 .hero-dark::before {
-  background: #303030 !important;
+  background: transparent !important;
 }
 /* ===== HERO TEXT VISIBILITY FIX ===== */
 
@@ -1820,4 +1820,99 @@ button { cursor: pointer; }
   .contact-info-card h3 {
     font-size: 15px;
   }
+}
+
+/* ================================
+   HERO BACKGROUND - TRANSPARENT
+================================ */
+
+.hero,
+.hero-banner,
+.hero-red,
+.hero-blue,
+.hero-dark {
+  background: transparent !important;
+}
+
+.hero-banner::before,
+.hero-blue::before,
+.hero-dark::before {
+  background: transparent !important;
+}
+
+.hero-banner::after {
+  background: transparent !important;
+  opacity: 0 !important;
+}
+
+/* ================================
+   HERO TEXT - DARK
+================================ */
+
+.hero-copy {
+  color: #171717 !important;
+}
+
+.hero-kicker {
+  color: var(--red) !important;
+}
+
+.hero-kicker::before {
+  background: var(--red) !important;
+}
+
+.hero-copy h1 {
+  color: #171717 !important;
+}
+
+.hero-copy h1 span {
+  color: var(--red) !important;
+}
+
+.hero-copy > p {
+  color: #5e5e5e !important;
+}
+
+.hero-points div {
+  color: #555 !important;
+}
+
+.hero-points svg {
+  color: var(--red) !important;
+}
+
+/* =================================
+   COOKER SLIDE TEXT FIX
+   ================================= */
+
+.hero-dark .hero-copy {
+  color: #171717 !important;
+}
+
+.hero-dark .hero-kicker {
+  color: var(--red) !important;
+}
+
+.hero-dark .hero-kicker::before {
+  background: var(--red) !important;
+}
+
+.hero-dark .hero-copy h1 {
+  color: #171717 !important;
+}
+
+.hero-dark .hero-copy h1 span {
+  color: var(--red) !important;
+}
+
+.hero-dark .hero-copy > p {
+  color: #5e5e5e !important;
+}
+
+.hero-dark .hero-points div {
+  color: #555 !important;
+}
+
+.hero-dark .hero-points svg {
+  color: var(--red) !important;
 }

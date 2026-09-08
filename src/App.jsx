@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import { X, Minus, Plus, Trash2, ShoppingBag, UserRound, LogIn } from "lucide-react";
 import Checkout from "./components/Checkout";
 import Contact from "./components/Contact";
+import localProducts from "./data/products";
 
 function readStorage(key, fallback) {
   try {
@@ -36,46 +37,11 @@ function App() {
   const [productsLoading, setProductsLoading] = useState(true);
   const [productsError, setProductsError] = useState("");
   useEffect(() => {
-  const fetchProducts = async () => {
-    try {
-      setProductsLoading(true);
-      setProductsError("");
-
-      const response = await fetch("http://localhost:5000/api/products");
-
-      if (!response.ok) {
-        throw new Error(`Server returned ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (!data.success || !Array.isArray(data.products)) {
-        throw new Error("Invalid products API response");
-      }
-
-      const normalizedProducts = data.products.map((product) => ({
-        ...product,
-
-        // Backend field → existing frontend field
-        category: product.product_category || product.category_name || "",
-        categoryGroup: product.category_value || "",
-
-        // Keep frontend image handling compatible
-        image: product.image || "",
-      }));
-
-      setProducts(normalizedProducts);
-    } catch (error) {
-      console.error("Products API error:", error);
-      setProductsError(
-        "Unable to load products. Please make sure the Maxwell backend is running."
-      );
-    } finally {
-      setProductsLoading(false);
-    }
-  };
-
-  fetchProducts();
+  // Backend abhi deploy nahi hai,
+  // isliye frontend local product data use karega.
+  setProducts(localProducts);
+  setProductsLoading(false);
+  setProductsError("");
 }, []);
 
   useEffect(() => {
