@@ -10,6 +10,7 @@ import { X, Minus, Plus, Trash2, ShoppingBag, UserRound, LogIn } from "lucide-re
 import Checkout from "./components/Checkout";
 import Contact from "./components/Contact";
 import localProducts from "./data/products";
+import Chatbot from "./components/Chatbot";
 
 function readStorage(key, fallback) {
   try {
@@ -261,6 +262,8 @@ function App() {
       </main>
 
       <Footer />
+
+      <Chatbot products={products} />
 
       {cartOpen && (
         <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && setCartOpen(false)}>
